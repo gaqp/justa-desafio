@@ -6,6 +6,10 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import play.libs.Json;
 import play.mvc.*;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.text.DecimalFormat;
+
 public class UnitConversionController extends Controller {
 
     public final double pi = Math.PI;
@@ -41,9 +45,10 @@ public class UnitConversionController extends Controller {
 
             try{
 
-                units = units.replace('°','D');
-                units = units.replace('\'','M');
-                units = units.replace('“','S');
+                units = units
+                        .replace('°','D')
+                        .replace('\'','M')
+                        .replace('“','S');
 
                 Expression e = new ExpressionBuilder(units)
                         .variables(variables)
@@ -86,12 +91,14 @@ public class UnitConversionController extends Controller {
                         .replaceAll(regexGen(variables[14]),"m³")
                         .replaceAll(regexGen(variables[15]),"m³")
                         .replaceAll(regexGen(variables[16]),"kg")
-                        .replaceAll(regexGen(variables[17]),"kg");
+                        .replaceAll(regexGen(variables[17]),"kg")
+                        .replaceAll(" ","");
 
                 double result = e.evaluate();
-
+                BigDecimal bd = new BigDecimal(result);
+                bd = bd.round(new MathContext(14));
                 response.put("unit_name",unitName);
-                response.put("multiplication_factor",result);
+                response.put("multiplication_factor",bd);
 
             }catch(Exception e){
                 response.put("error","error while parsing expression");
