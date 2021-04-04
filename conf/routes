@@ -5,7 +5,7 @@
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index()
 
-GET     /units/si                   controllers.UnitConversionController.index(units: String)
+GET     /api/v1/units/si                   controllers.UnitConversionController.index(units: String ?= null)
 
 
 # Map static resources from the /public folder to the /assets URL path
