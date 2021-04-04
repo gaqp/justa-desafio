@@ -105,6 +105,7 @@ public class UnitConversionController extends Controller {
 
     public String regexGen(String s){
         String retorno  = "(?<![A-z])("+s+")(?![A-z])" ;
+
         return retorno;
     }
 
